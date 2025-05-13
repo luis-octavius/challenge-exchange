@@ -1,5 +1,6 @@
 package com;
 import java.io.IOException;
+import java.util.Map;
 
 public class Menu {
     private String mainMenu = """
@@ -16,33 +17,22 @@ public class Menu {
             7 - Sair
             *******************************************************
             """;
+    private final Map<Integer, String[]> currencyPairs = Map.of(
+            1, new String[] {"EUR", "USD"},
+            2, new String[] {"USD", "EUR"},
+            3, new String[] {"BRL", "EUR"},
+            4, new String[] {"BRL", "USD"},
+            5, new String[] {"USD", "BRL"},
+            5, new String[] {"EUR", "BRL"}
+    );
     private Request request = new Request();
 
     public String interactiveMenu(int option, String amount) throws IOException, InterruptedException {
-        String response = "";
-        switch(option) {
-            case 1:
-                response = request.getRequestPair("EUR", "USD", amount);
-                break;
-            case 2:
-                response = request.getRequestPair("USD", "EUR", amount);
-                break;
-            case 3:
-                response = request.getRequestPair("BRL", "EUR", amount);
-                break;
-            case 4:
-                response = request.getRequestPair("BRL", "USD", amount);
-                break;
-            case 5:
-                response = request.getRequestPair("USD", "BRL", amount);
-            case 6:
-                response = request.getRequestPair("EUR", "BRL", amount);
-                break;
-            case 7:
-                return "sair";
-        }
-        return response;
+        if (option == 7) return "sair";
+        String[] pairs = currencyPairs.get(option);
+        return request.getRequestPair(pairs[0], pairs[1], amount);
     }
+
     public String getMainMenu() {
         return mainMenu;
     }
