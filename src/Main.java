@@ -7,11 +7,17 @@ import com.Menu;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class Main {
 public static void main(String[] args) throws IOException, InterruptedException {
         Scanner sc = new Scanner(System.in);
 
+        //Verifying API
+        String apiKey = Dotenv.load().get("EXCHANGE_API_KEY");
+        System.out.println("API KEY: " + (apiKey != null ? "***" : "Não encontrada"));
+
+        //Deserialization
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
@@ -31,7 +37,7 @@ public static void main(String[] args) throws IOException, InterruptedException 
                         break;
                 }
 
-                System.out.println("Digite a quantia que deseja converter");
+                System.out.println("Digite a quantia que deseja converter: ");
                 while (!sc.hasNextInt()) {
                         System.out.println("Por favor, digite um número válido (1 a 7).");
                         sc.next();
@@ -39,8 +45,9 @@ public static void main(String[] args) throws IOException, InterruptedException 
                 int amount = sc.nextInt();
                 try {
                         String result = menu.interactiveMenu(option, String.valueOf(amount));
-                        Exchange requestExchange = gson.fromJson(result, Exchange.class);
-                        System.out.println("A conversão do valor " + amount + " " + requestExchange.base_code() + " para " + requestExchange.target_code() + " é igual a: " + requestExchange.conversion_result());
+                        Exchange requestExchange;
+                    requestExchange = gson.fromJson(result, Exchange.class);
+                    System.out.println("A conversão do valor " + amount + " " + requestExchange.base_code() + " para " + requestExchange.target_code() + " é igual a: " + requestExchange.conversion_result() + "\n\n");
                 } catch (IOException e) {
                         System.out.println("Erro de conexão com a API, verifique a internet.");
                 } catch (InterruptedException e) {
@@ -49,5 +56,7 @@ public static void main(String[] args) throws IOException, InterruptedException 
                         System.out.println("Erro inesperado: " + e.getMessage());
                 }
         } while(option != 7);
+        System.out.println("Fim do programa.");
+        sc.close();
  }
 }
