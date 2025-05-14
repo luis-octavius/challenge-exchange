@@ -23,7 +23,7 @@ public class Menu {
             3, new String[] {"BRL", "EUR"},
             4, new String[] {"BRL", "USD"},
             5, new String[] {"USD", "BRL"},
-            5, new String[] {"EUR", "BRL"}
+            6, new String[] {"EUR", "BRL"}
     );
     private Request request = new Request();
 
