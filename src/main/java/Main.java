@@ -1,5 +1,4 @@
 import com.Exchange;
-import com.Request;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.Menu;
@@ -47,7 +46,7 @@ public static void main(String[] args) throws IOException, InterruptedException 
                         String result = menu.interactiveMenu(option, String.valueOf(amount));
                         Exchange requestExchange;
                     requestExchange = gson.fromJson(result, Exchange.class);
-                    System.out.println("A conversão do valor " + amount + " " + requestExchange.base_code() + " para " + requestExchange.target_code() + " é igual a: " + requestExchange.conversion_result() + "\n\n");
+                    System.out.println("A conversão do valor " + amount + " " + requestExchange.base_code() + " para " + requestExchange.target_code() + " é igual a: " + requestExchange.target_code() +requestExchange.conversion_result() + "\n\n");
                 } catch (IOException e) {
                         System.out.println("Erro de conexão com a API, verifique a internet.");
                 } catch (InterruptedException e) {
